@@ -3,7 +3,7 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"os"
+	"log"
 
 	"github.com/gorilla/mux"
 	_ "github.com/lib/pq"
@@ -14,22 +14,14 @@ type App struct {
 	DB     *sql.DB
 }
 
-// The product struct
-
-type product struct {
-	ID    int     `json:"id"`
-	Name  string  `json:"name"`
-	Price float64 `json:"price"`
-}
-
 func (a *App) Initialize(user, password, dbname string) {
-
-	app := App{}
-	app.Initialize(
-		os.Getenv("APP_DB_USERNAME"),
-		os.Getenv("APP_DB_PASSWORD"),
-		os.Getenv("APP_DB_NAME"))
-
-	a.Run(":8080")
+	connectionString := fmt.Sprintf("user=%s password=%s dbname=%s", user, password, dbname)
+	var err error
+	a.DB, err = sql.Open("postgres", connectionString)
+	if err != nil {
+		log.Fatal(err)
+	}
+	a.Router = mux.NewRouter()
+	
 }
 func (a *App) Run(addr string) {}
