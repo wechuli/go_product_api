@@ -31,7 +31,7 @@ func (p *product) createProduct(db *sql.DB) error {
 	return errors.New("Not implemented")
 }
 
-// standalone dunction to fetch a list of products
+// standalone function to fetch a list of products
 
 func getProducts(db *sql.DB, start, count int) ([]product, error) {
 	return nil, errors.New("Not implemented")
